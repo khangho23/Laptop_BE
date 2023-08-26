@@ -1,11 +1,20 @@
 package com.example.demo.entity;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.*;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,16 +46,37 @@ public class Users {
 	@Column(name = "is_admin")
 	private boolean isAdmin;
 
+	@Column
+	private boolean active;
+
+	@Column
+	private String token;
+
 	@OneToMany(mappedBy = "user")
 	@JsonIgnore
 	private List<Orders> orders;
 
-	public Users(int id, String password, String fullname, String email, String phone) {
-		this.id = id;
+	public Users(String password, String fullname, String email, String phone, String token) {
 		this.password = password;
 		this.fullname = fullname;
 		this.email = email;
 		this.phone = phone;
+		this.token = token;
+		this.isAdmin = false;
+		this.active = false;
+	}
+
+	public Users(String password, String fullname, String email, String phone, String token, boolean active) {
+		this.password = password;
+		this.fullname = fullname;
+		this.email = email;
+		this.phone = phone;
+		this.token = token;
+		this.active = active;
 		this.isAdmin = false;
 	}
+
+	@CreationTimestamp
+	@Column
+	private LocalDateTime createdAt;
 }

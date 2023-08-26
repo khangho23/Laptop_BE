@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public enum InvalidRequestParameter {
+public enum RequestParameterEnum {
 	NOTHING("nothing"),
 	INVALID_TYPE("invalid type"),
 	WRONG("wrong"),
 	EXISTS("is exists"),
 	NOT_EXISTS("not exists"),
 	NOT_FOUND("not found");
+
 	@Getter
 	private String name;
 }

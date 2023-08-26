@@ -27,27 +27,29 @@ public class OrderController {
     private OrderService orderSerivce;
 
     @GetMapping("")
-    public ResponseEntity<?> getAll (@RequestParam("userId") Optional<Integer> userId){ 
-        return ResponseEntity.ok(userId.isPresent() ?orderSerivce.findByCustomerId(userId.get()): orderSerivce.findAll());
+    public ResponseEntity<?> getAll(@RequestParam("userId") Optional<Integer> userId) {
+        return ResponseEntity
+                .ok(userId.isPresent() ? orderSerivce.findByCustomerId(userId.get()) : orderSerivce.findAll());
     }
-    
+
     @GetMapping("/fillOrdersByStatus")
-    public ResponseEntity<?> getDhByStatusUser (@RequestParam("userId") Integer userId,@RequestParam("status") Integer status){ 
+    public ResponseEntity<?> getDhByStatusUser(@RequestParam("userId") Integer userId,
+            @RequestParam("status") Integer status) {
         return ResponseEntity.ok(orderSerivce.findDhByStatusUser(userId, status));
     }
-    
+
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") Integer id){
+    public ResponseEntity<?> getById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(orderSerivce.findById(id));
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> update (@RequestBody Orders order) throws MessagingException{
+    public ResponseEntity<?> update(@RequestBody Orders order) throws MessagingException {
         return ResponseEntity.ok(orderSerivce.update(order));
     }
-    
+
     @PostMapping("/save")
-    public ResponseEntity<?> save (@RequestBody Orders order) throws MessagingException{
+    public ResponseEntity<?> save(@RequestBody Orders order) throws MessagingException {
         return ResponseEntity.ok(orderSerivce.save(order));
     }
 }

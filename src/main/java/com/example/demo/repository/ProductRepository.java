@@ -2,15 +2,12 @@ package com.example.demo.repository;
 
 import java.util.List;
 
-import com.example.demo.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.Product;
 
-@Repository
-public interface ProductRepository extends JpaRepository<Product,Integer>{
+public interface ProductRepository extends JpaRepository<Product, Integer> {
 	List<Product> findByName(String name);
 
 	@Query("SELECT o FROM Product o JOIN Brand b ON o.brand.id = b.id WHERE o.ram = "
@@ -23,11 +20,13 @@ public interface ProductRepository extends JpaRepository<Product,Integer>{
 			+ "CASE WHEN ?4 IS NULL THEN o.os ELSE ?4 END "
 			+ "AND o.brand.id = "
 			+ "CASE WHEN ?5 IS NULL THEN o.brand.id ELSE ?5 END")
-	List<Product> filterProduct(String ram, String rom, String display,String os, Integer brandid);
+	List<Product> filterProduct(String ram, String rom, String display, String os, Integer brandid);
 
-	@Query(value = "SELECT pro.id, pro.name, ram, display, rom, os, price, pro.quantity, pro.brandid, pro.colorid, pro.logo\n" +
+	@Query(value = "SELECT pro.id, pro.name, ram, display, rom, os, price, pro.quantity, pro.brandid, pro.colorid, pro.logo\n"
+			+
 			"FROM order_detail ord_de JOIN product pro ON ord_de.productid = pro.id\n" +
-			"GROUP BY pro.id, pro.name, ram, display, rom, os, price, pro.quantity, pro.brandid, pro.colorid,  pro.logo\n" +
+			"GROUP BY pro.id, pro.name, ram, display, rom, os, price, pro.quantity, pro.brandid, pro.colorid,  pro.logo\n"
+			+
 			"HAVING SUM(ord_de.quantity) = (\n" +
 			"    SELECT MAX(total_quantity)\n" +
 			"    FROM (\n" +
