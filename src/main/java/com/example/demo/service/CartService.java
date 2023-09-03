@@ -24,6 +24,15 @@ public class CartService {
             return 1;
         }
         return 0;
+
+        // Cart existingCart = cartRepository.findByProductId(cart.getProductId());
+        // existingCart.setUserId(cart.getUserId());
+        // if (existingCart != null) {
+        //     existingCart.setQuantity(existingCart.getQuantity() + cart.getQuantity());
+        //     cartRepository.save(existingCart);
+        // } else {
+        //     cartRepository.save(cart);
+        // }
     }
 
     public List<Cart> findByUserId(int id) {
