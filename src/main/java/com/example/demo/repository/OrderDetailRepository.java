@@ -1,17 +1,16 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.Report;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.example.demo.entity.Order_Detail;
-import com.example.demo.entity.Product;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
 import java.util.Date;
 import java.util.List;
 
-public interface OrderDetailRepository extends JpaRepository<Order_Detail, Integer>{
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.example.demo.entity.Order_Detail;
+import com.example.demo.entity.Report;
+
+public interface OrderDetailRepository extends JpaRepository<Order_Detail, Integer> {
     @Query("SELECT NEW com.example.demo.entity.Report(pro.id, pro.name, pro.logo, " +
             "SUM(ord_de.quantity), SUM(pro.price)) " +
             "FROM Order_Detail ord_de " +

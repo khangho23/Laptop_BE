@@ -1,15 +1,17 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Orders;
-import com.example.demo.service.OrderDetailService;
-import com.example.demo.service.OrderService;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
-import java.util.Optional;
+import com.example.demo.service.OrderDetailService;
 
 @RestController
 @CrossOrigin("*")
@@ -19,7 +21,9 @@ public class OrderDetailController {
     private OrderDetailService orderDetailService;
 
     @GetMapping("/products-sold")
-    public ResponseEntity<?> ProductsSold(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate, @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate){
+    public ResponseEntity<?> ProductsSold(
+            @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
         return ResponseEntity.ok(orderDetailService.productsSold(startDate, endDate));
     }
 }

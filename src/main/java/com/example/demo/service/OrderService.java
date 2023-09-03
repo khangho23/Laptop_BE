@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.demo.entity.Report;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ import com.example.demo.repository.OrderRepository;
 import jakarta.mail.MessagingException;
 
 @Service
-public class OrderService{
+public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
@@ -28,54 +27,51 @@ public class OrderService{
     private CartRepository cartRepository;
     @Autowired
     private UsersService usersService;
-    
 
     @Autowired
     private EmailService emailService;
 
-    public Orders findById(Integer id){
+    public Orders findById(Integer id) {
         return orderRepository.findById(id).get();
     }
-    
-    public List<Orders> findDhByStatusUser(int customerid,int status){
+
+    public List<Orders> findDhByStatusUser(int customerid, int status) {
         return orderRepository.findDhByStatusUser(customerid, status);
     }
-    
-    public int update (Orders order)throws MessagingException{
-    	try {
-    	orderRepository.save(order);
-    	return 1;
-    	}catch(Exception e){
-    		e.printStackTrace();
-    		return 0;
-    	}
+
+    public int update(Orders order) throws MessagingException {
+        try {
+            orderRepository.save(order);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     public List<OrderDto> findAll() {
-        // TODO Auto-generated method stub
-        return orderRepository.findAll().stream().map(s->new OrderDto(s)).toList();
+        return orderRepository.findAll().stream().map(s -> new OrderDto(s)).toList();
     }
 
-    public List<Orders> findByCustomerId(int customerId){
+    public List<Orders> findByCustomerId(int customerId) {
         return orderRepository.findByCustomerId(customerId);
-    } 
+    }
 
-    public int save (Orders order) throws MessagingException{
+    public int save(Orders order) throws MessagingException {
         try {
             order.setUser(usersService.findById(order.getCustomerId()));
         } catch (InvalidRequestParameterException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         Orders od = orderRepository.save(order);
-        if(od != null){
-            order.getOrder_details().forEach(s->{
+        if (od != null) {
+            order.getOrder_details().forEach(s -> {
                 s.setOrder(od);
             });
             od.setOrder_details(order.getOrder_details());
             System.out.println(3425443);
             orderDetailRepository.saveAll(order.getOrder_details());
-            order.getOrder_details().forEach(s->{
+            order.getOrder_details().forEach(s -> {
                 cartRepository.deleteById(s.getCartId());
             });
             emailService.send(new MailInfo(order.getUser().getEmail(), "Hóa đơn Zuhot Store", od));

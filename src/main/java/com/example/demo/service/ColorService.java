@@ -1,15 +1,13 @@
 package com.example.demo.service;
 
-import com.example.demo.common.enums.InvalidRequestParameter;
-import com.example.demo.entity.Brand;
-import com.example.demo.entity.Color;
-import com.example.demo.exception.InvalidRequestParameterException;
-import com.example.demo.repository.BrandRepository;
-import com.example.demo.repository.ColorRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.example.demo.entity.Color;
+import com.example.demo.exception.InvalidRequestParameterException;
+import com.example.demo.repository.ColorRepository;
 
 @Service
 public class ColorService implements BaseService<Color, Integer> {

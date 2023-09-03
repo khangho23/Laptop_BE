@@ -5,10 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.common.enums.InvalidRequestParameter;
+import com.example.demo.common.enums.RequestParameterEnum;
 import com.example.demo.entity.Product;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.repository.ProductRepository;
@@ -25,7 +24,7 @@ public class ProductService implements BaseService<Product, Integer> {
 	@Override
 	public Product findById(Integer id) throws InvalidRequestParameterException {
 		return repo.findById(id)
-				.orElseThrow(() -> new InvalidRequestParameterException("id", InvalidRequestParameter.NOTHING));
+				.orElseThrow(() -> new InvalidRequestParameterException("id", RequestParameterEnum.NOTHING));
 	}
 
 	public List<Product> filterProduct(String ram, String rom, String display, String os, Integer brandid) {
@@ -34,7 +33,6 @@ public class ProductService implements BaseService<Product, Integer> {
 
 	@Override
 	public List<Product> findAll() {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'findAll'");
 	}
 
@@ -58,6 +56,6 @@ public class ProductService implements BaseService<Product, Integer> {
 			System.out.println(e);
 			return 0;
 		}
-		
+
 	}
 }

@@ -3,11 +3,10 @@ package com.example.demo.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.common.enums.InvalidRequestParameter;
+import com.example.demo.common.enums.RequestParameterEnum;
+import com.example.demo.common.enums.RequestStatusEnum;
 import com.example.demo.entity.Brand;
 import com.example.demo.exception.InvalidRequestParameterException;
 import com.example.demo.repository.BrandRepository;
@@ -22,41 +21,38 @@ public class BrandService implements BaseService<Brand, Integer> {
 		return repo.findAll();
 	}
 
-
 	@Override
 	public Brand findById(Integer id) throws InvalidRequestParameterException {
 		if (id == null) {
-			throw new InvalidRequestParameterException("id", InvalidRequestParameter.NOTHING);
+			throw new InvalidRequestParameterException("id", RequestParameterEnum.NOTHING);
 		}
 		return repo.findById(id)
-				.orElseThrow(() -> new InvalidRequestParameterException("id", InvalidRequestParameter.NOT_FOUND));
+				.orElseThrow(() -> new InvalidRequestParameterException("id", RequestParameterEnum.NOT_FOUND));
 	}
 
-	public int save(Brand brand) throws InvalidRequestParameterException {
+	public RequestStatusEnum save(Brand brand) throws InvalidRequestParameterException {
 		if (brand == null) {
-			throw new InvalidRequestParameterException("Brand", InvalidRequestParameter.NOTHING);
+			throw new InvalidRequestParameterException("Brand", RequestParameterEnum.NOTHING);
 		}
 		Brand br = repo.findByName(brand.getName());
 		if (br != null) {
-			throw new InvalidRequestParameterException("Brand", InvalidRequestParameter.EXISTS);
+			throw new InvalidRequestParameterException("Brand", RequestParameterEnum.EXISTS);
 		}
-		repo.save(brand);
-		return 1;
+		return (repo.save(brand) != null ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
 	}
 
-	public int deleteById(Integer id) throws InvalidRequestParameterException {
+	public RequestStatusEnum deleteById(Integer id) throws InvalidRequestParameterException {
 		if (!repo.existsById(id)) {
-			throw new InvalidRequestParameterException("id", InvalidRequestParameter.NOT_FOUND);
+			throw new InvalidRequestParameterException("id", RequestParameterEnum.NOT_FOUND);
 		}
 		repo.delete(repo.findById(id).get());
-		return 1;
+		return RequestStatusEnum.SUCCESS;
 	}
 
-	public int update(Integer id, Brand brand) throws InvalidRequestParameterException {
+	public RequestStatusEnum update(Integer id, Brand brand) throws InvalidRequestParameterException {
 		if (!repo.existsById(id)) {
-			throw new InvalidRequestParameterException("brand", InvalidRequestParameter.NOT_EXISTS);
+			throw new InvalidRequestParameterException("brand", RequestParameterEnum.NOT_EXISTS);
 		}
-		repo.save(brand);
-		return 1;
+		return (repo.save(brand) != null ? RequestStatusEnum.SUCCESS : RequestStatusEnum.FAILURE);
 	}
 }

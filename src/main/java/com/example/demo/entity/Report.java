@@ -1,12 +1,9 @@
 package com.example.demo.entity;
 
-import com.example.demo.listener.MyEntityListener;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 @Table
 @AllArgsConstructor
