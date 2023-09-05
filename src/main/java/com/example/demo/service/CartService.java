@@ -18,21 +18,16 @@ public class CartService {
     private ProductRepository productRepository;
 
     public int save(Cart cart) {
-        cart.setProduct(productRepository.findById(cart.getProductId()).get());
-        Cart object = cartRepository.save(cart);
-        if (object == null) {
-            return 1;
+        Cart existingCart = cartRepository.findByProductId(cart.getProductId());
+        if (existingCart != null) {
+            existingCart.setUserId(cart.getUserId());
+            existingCart.setQuantity(existingCart.getQuantity() + cart.getQuantity());
+            cartRepository.save(existingCart);
+        } else {
+            cartRepository.save(cart);
         }
-        return 0;
 
-        // Cart existingCart = cartRepository.findByProductId(cart.getProductId());
-        // existingCart.setUserId(cart.getUserId());
-        // if (existingCart != null) {
-        //     existingCart.setQuantity(existingCart.getQuantity() + cart.getQuantity());
-        //     cartRepository.save(existingCart);
-        // } else {
-        //     cartRepository.save(cart);
-        // }
+        return 0;
     }
 
     public List<Cart> findByUserId(int id) {
@@ -46,5 +41,11 @@ public class CartService {
         } catch (Exception e) {
             return 0;
         }
+    }
+    
+    public int update(Cart cart) {
+    	cartRepository.save(cart);
+
+        return 0;
     }
 }

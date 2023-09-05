@@ -17,11 +17,11 @@ public class Cart {
 	private int cartId;
 
 	@ManyToOne
-	@JoinColumn(name="productid",insertable = true,updatable = false)
+	@JoinColumn(name="productid", insertable = false,updatable = false)
 	private Product product;
 
-	// @Column(name = "productid")
-	@Transient
+	 @Column(name = "productid")
+//	@Transient
 	private int productId;
 
 	@Column(name = "userid")
